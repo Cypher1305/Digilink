@@ -1,0 +1,39 @@
+@import 'flowbite';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+    /* Définir les variables globales */
+    --background-color: #f5f5f5;
+    --text-color: #333;
+    --link-color: #4CAF50;
+    --font-family: 'Montserrat', sans-serif;
+  }
+  
+  /* Réinitialiser les styles pour les éléments HTML */
+  html,
+  body,
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Appliquer les styles par défaut */
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+  }
+  
+  a {
+    color: var(--link-color);
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
