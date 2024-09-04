@@ -12,7 +12,6 @@ export function useAuth() {
 
   const logout = () => {
     // Logique pour la déconnexion
-    console.log('Utilisateur déconnecté.');
     setLoggedIn(false);
   };
 

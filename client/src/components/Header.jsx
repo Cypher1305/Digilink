@@ -28,7 +28,7 @@ function Header({ isAuthenticated }) {
             <span className="block text-sm">Bénédicte YAO</span>
             <span className="block truncate text-sm font-medium">bene@gmail.com</span>
           </Dropdown.Header>
-          <Dropdown.Item as={Link} to="/Scan">Numériser cartes</Dropdown.Item>
+          <Dropdown.Item as={Link} to="/Bientot">Numériser cartes</Dropdown.Item>
           <Dropdown.Item as={Link} to="/GestionCarte">Gérer mes pages</Dropdown.Item>
           <Dropdown.Item as={Link} to="/GestionCompte">Gérer mon compte</Dropdown.Item>
           <Dropdown.Divider />
@@ -40,10 +40,10 @@ function Header({ isAuthenticated }) {
         <Navbar.Link href="#" active>
           Home
         </Navbar.Link>
-        <Navbar.Link href="#accueil">Acceuil</Navbar.Link>
-        <Navbar.Link href="#solutions">Solutions</Navbar.Link>
-        <Navbar.Link href="#tarifs">Tarifs</Navbar.Link>
-        <Navbar.Link href="#footer">Contact</Navbar.Link>
+        <Navbar.Link href="/">Acceuil</Navbar.Link>
+        <Navbar.Link href="/Annuaire">Annuaire</Navbar.Link>
+        <Navbar.Link href="/FAQ">FAQ</Navbar.Link>
+        <Navbar.Link href="#footer">Contacts</Navbar.Link>
       </Navbar.Collapse>
       
     </Navbar>

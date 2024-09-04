@@ -56,6 +56,8 @@ function LoginPage({ setIsAuthenticated }) {
         setSuccessMessage('Authentification réussie.');
         setErrorMessage('');
         setRedirect(true);
+        const expirationTime = new Date().getTime() + 3600000; // 1 heure
+        localStorage.setItem('authToken', JSON.stringify({ token: response.data.token, expiration: expirationTime }));
       } else {
         setErrorMessage('Code incorrect. Veuillez réessayer.');
         setSuccessMessage('');
