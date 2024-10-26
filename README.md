@@ -110,4 +110,4 @@ Page de gestion de compte ![gestiond de compte](images/DIGI7.PNG)
 Page de gestion de contact ![Gestionnaire de contact](images/DIGI8.PNG)
 
 
-***Bisou😘❤️❤️❤️***
+***XoXo😘❤️❤️❤️***
