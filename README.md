@@ -47,7 +47,7 @@ Pour installer DIGILINK, suivez ces étapes :
 
 1. Clonez le dépôt :
    ```bash
-   git clone https://github.com/votre-utilisateur/digilink.git
+   git clone https://github.com/Cypher1305/digilink.git
    ```
    
 2. Accédez au répertoire du projet :
