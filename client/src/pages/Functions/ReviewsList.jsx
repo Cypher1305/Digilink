@@ -1,5 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+
+const isLocal = window.location.hostname === 'localhost';
+const API_URL = isLocal ? 'http://localhost:5000' : 'http://192.168.1.3:5000';
 
 const ReviewsList = ({ companyId }) => {
   const [reviews, setReviews] = useState([]);
@@ -23,7 +29,7 @@ const ReviewsList = ({ companyId }) => {
   const fetchReviews = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:5000/reviews/${companyId}`);
+      const response = await axios.get(`${API_URL}/reviews/${companyId}`);
       setReviews(response.data); // Mettre à jour l'état avec les données récupérées
     } catch (err) {
       setError('Erreur lors du chargement des avis');

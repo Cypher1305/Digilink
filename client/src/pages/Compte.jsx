@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -25,13 +26,13 @@ function Compte() {
       <hr className="w-full "/>
       <div className="py-3 text-center">
         <div className="hover:bg-neutral-300 py-3 cursor-pointer">
-          <Link to="/Abonnement"><h2>Mes contacts</h2></Link>
+          <Link to="/Contacts"><h2>Mes contacts</h2></Link>
         </div>
         <div className="hover:bg-neutral-300 py-3 cursor-pointer">
-          <Link to="/SignIn"><h2>Modifier le compte</h2></Link>
+          <Link to="/edit-carte"><h2>Modifier le compte</h2></Link>
         </div>
         <div className="hover:bg-neutral-300 py-3 cursor-pointer">
-          <Link to="/Abonnement"><h2>Mettre à jour le Compte</h2></Link>
+          <Link to="/Abonne"><h2>Mettre à jour le Compte</h2></Link>
         </div>
         <div className="hover:bg-neutral-300 py-3 cursor-pointer">
           <h2 className="text-red-500">Supprimer le compte</h2>

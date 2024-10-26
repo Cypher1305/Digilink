@@ -18,4 +18,6 @@ pool.connect((err, client, release) => {
   release(); // Relâcher le client pour le retourner au pool
 });
 
+
+
 module.exports = pool;

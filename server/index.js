@@ -16,11 +16,13 @@ require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  })
-);
+app.use(cors({
+  origin: '*', // Remplacez '*' par les origines autorisées
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization'
+}));
+
+
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
@@ -257,29 +259,64 @@ app.get('/details/:pageName', async (req, res) => {
   try {
     // Requête pour obtenir les détails de la page
     const result = await pool.query('SELECT * FROM "DI_LINK"."TB_PAGE" WHERE "pageName" = $1', [pageName]);
-
     // Vérifiez si des résultats ont été trouvés
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Page non trouvée' });
     }
-
     // Renvoie les détails de la page
     res.json(result.rows[0]);
-    
-
-    
   } catch (err) {
     // Log des erreurs pour le développement
     console.error('Erreur lors de la récupération des détails:', err.message);
-
     // Réponse en cas d'erreur serveur
     res.status(500).json({ message: 'Erreur serveur', details: err.message });
   }
 });
 
 
+// Route pour enregistrer un contact
+app.post('/contacts', async (req, res) => {
+  const { fullName, phoneNumber, email, pageName } = req.body;
 
+  try {
+    const result = await pool.query(
+      `INSERT INTO "DI_LINK"."TB_CLIENTS" (full_name, phone_number, email, pageName, status) 
+       VALUES ($1, $2, $3, $4, 'prospect') RETURNING *`,
+      [fullName, phoneNumber, email, pageName]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error("Erreur lors de l'enregistrement du contact:", error.message);
+    res.status(500).json({ error: "Erreur interne du serveur" });
+  }
+});
 
+app.get('/contacts', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM "DI_LINK"."TB_CLIENTS"');
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des contacts:", error.message);
+    res.status(500).json({ error: "Erreur interne du serveur" });
+  }
+});
+
+// Route pour mettre à jour le statut d'un contact
+app.put('/contacts/:id', async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const result = await pool.query(
+      'UPDATE "DI_LINK"."TB_CLIENTS" SET status = $1 WHERE id = $2 RETURNING *',
+      [status, id]
+    );
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du statut:", error.message);
+    res.status(500).json({ error: "Erreur interne du serveur" });
+  }
+});
 
 
 
@@ -287,6 +324,6 @@ app.get("/test", (req, res) => {
   res.status(200).send("API is working");
 });
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on port ${port}`);
 });

@@ -1,6 +1,10 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+const isLocal = window.location.hostname === 'localhost';
+const API_URL = isLocal ? 'http://localhost:5000' : 'http://192.168.1.3:5000';
 
 const ReviewForm = ({ companyId }) => {
   const [rating, setRating] = useState(1);
@@ -12,14 +16,14 @@ const ReviewForm = ({ companyId }) => {
 
     try {
       // Vérifier si l'utilisateur est connecté
-      const response = await axios.get('/userinfo');
+      const response = await axios.get(`${API_URL}/userinfo`);
       if (!response.data.email) {
         navigate('/login'); // Redirige si l'utilisateur n'est pas connecté
         return;
       }
 
       // Si l'utilisateur est connecté, envoyer l'avis
-      await axios.post('/reviews', {
+      await axios.post(`${API_URL}/reviews`, {
         companyId,
         userEmail: response.data.email,
         rating,

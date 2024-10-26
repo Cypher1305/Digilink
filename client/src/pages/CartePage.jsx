@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-unused-vars */
+// components/CartePage.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
@@ -12,17 +15,15 @@ import site from "../assets/site.png";
 import wha from "../assets/wha.png";
 import beh from "../assets/behance.png";
 import pint from "../assets/pint.png";
-import CompanyPage from "./CompanyPage";
+import PopupForm from "./Functions/PopupForm";
 
- 
+const isLocal = window.location.hostname === 'localhost';
+const API_URL = isLocal ? 'http://localhost:5000' : 'http://192.168.1.3:5000';
 
 const CartePage = () => {
   const { pageName } = useParams();
   const navigate = useNavigate();
-  const [data, setFormData] = useState(null); // Initialise avec null pour éviter l'affichage de l'erreur avant la récupération des données
-  const [logoUrl, setLogoUrl] = useState("");
-  const [userUrl, setUserUrl] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
   const [socialNetworks, setSocialNetworks] = useState([
     { name: "linkedin", icon: Lin, url: "" },
     { name: "twitter", icon: twit, url: "" },
@@ -36,13 +37,14 @@ const CartePage = () => {
     { name: "behance", icon: beh, url: "" },
   ]);
 
+  const [showPopup, setShowPopup] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/details/${pageName}`);
-        setFormData(response.data);
-       setLogoUrl(response.data);
-        setUserUrl(response.data);
+        const response = await axios.get(`${API_URL}/details/${pageName}`);
+        setData(response.data);
         setLoading(false);
       } catch (error) {
         console.error("Erreur lors de la récupération des détails:", error.message);
@@ -51,6 +53,14 @@ const CartePage = () => {
     };
 
     fetchDetails();
+
+    // Affiche le popup après 5 secondes
+    const timer = setTimeout(() => {
+      setShowPopup(true);
+    }, 10000);
+
+    // Nettoie le timer à la suppression du composant
+    return () => clearTimeout(timer);
   }, [pageName]);
 
   useEffect(() => {
@@ -63,6 +73,23 @@ const CartePage = () => {
       );
     }
   }, [data]);
+
+  const handlePopupClose = () => {
+    setShowPopup(false);
+  };
+
+  const handlePopupSubmit = async (formData) => {
+  try {
+    const response = await axios.post(`${API_URL}/contacts`, {
+      ...formData,
+      pageName: pageName, // Ajoute le nom de la page
+    });
+    console.log("Form Data Submitted:", response.data);
+    setShowPopup(false);
+  } catch (error) {
+    console.error("Erreur lors de la soumission des données du formulaire:", error.message);
+  }
+};
 
   const downloadVCF = () => {
     const vcfData = `BEGIN:VCARD
@@ -78,9 +105,9 @@ END:VCARD`;
     const a = document.createElement("a");
     a.href = url;
     a.download = `${data.firstname || "contact"}.vcf`;
-    document.body.appendChild(a); // Needed for Firefox
+    document.body.appendChild(a);
     a.click();
-    document.body.removeChild(a); // Clean up
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
@@ -91,9 +118,8 @@ END:VCARD`;
   if (!data) {
     return <p>Aucune donnée disponible pour cette page.</p>;
   }
-  
-   const handleCheckId = () => {
-    // Naviguer vers la page de l'entreprise en utilisant l'ID_COMP
+
+  const handleCheckId = () => {
     navigate(`/digilink/${data.companyname}`);
   };
 
@@ -111,7 +137,10 @@ END:VCARD`;
         <h3 className="uppercase text-md">
           {data.fonction || "Fonction"}
         </h3>
-        <button className="hey" onClick={downloadVCF}>
+        <button
+          className="px-4 py-2 hey"
+          onClick={downloadVCF}
+        >
           Enregistrer le contact
         </button>
 
@@ -128,7 +157,7 @@ END:VCARD`;
                   rel="noopener noreferrer"
                   key={network.name}
                 >
-                  <div className="flex flex-col items-center mx-2 my-2">
+                  <div className="flex flex-col items-center my-2">
                     <img
                       className="w-[50px] h-[50px] border rounded py-1 px-1"
                       src={network.icon}
@@ -143,27 +172,17 @@ END:VCARD`;
           )}
         </div>
 
-        <h5 className="text-xl font-bold text-gray-500 dark:text-gray-400 mt-5">
-          Informations de l'entreprise
-        </h5>
-        <div className="flex flex-col items-center">
-          <div className="flex items-center space-x-2">
-            <img
-              className="w-[85px] h-[90px] border rounded py-1 px-1"
-              src={data.logourl || "../assets/kyconsultingci_logo.jpg"}
-              alt="Logo entreprise"
-            />
-            <h3 className="text-lg">
-              {data.companyname || "Nom de l'entreprise"}
-            </h3>
-          </div>
-          <h3 className="text-md text-gray-600">
-            {data.companydescription || "Description de l'entreprise"}
-          </h3>
-        </div>
-        <button className="hey" onClick={handleCheckId}>Voir l'entreprise</button>
-            <h3 className="text-[11px] text-gray-300">@DIGILINK.CI</h3>
+        <button
+          className="px-4 py-2 hey"
+          onClick={handleCheckId}
+        >
+          Voir l'entreprise
+        </button>
       </div>
+
+      {showPopup && (
+        <PopupForm onClose={handlePopupClose} onSubmit={handlePopupSubmit} />
+      )}
     </div>
   );
 };

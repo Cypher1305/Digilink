@@ -1,5 +1,10 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import axios from 'axios';
+const isLocal = window.location.hostname === 'localhost';
+const API_URL = isLocal ? 'http://localhost:5000' : 'http://192.168.1.3:5000';
 
 const ContactCompForm = ({ companyId }) => {
   const [formData, setFormData] = useState({
@@ -24,7 +29,7 @@ const ContactCompForm = ({ companyId }) => {
     entrepriseId: companyId // Assurez-vous que companyId est bien défini
   };
     try {
-      await axios.post(`http://localhost:5000/contact`, dataToSend);
+      await axios.post(`${API_URL}/contact`, dataToSend);
       alert('Message envoyé avec succès');
     } catch (error) {
       console.error('Erreur lors de l\'envoi du message:', error.message);

@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 // Header.jsx
 import React from 'react';
 "use client";
@@ -25,8 +27,8 @@ function Header({ isAuthenticated }) {
           }
         >
           <Dropdown.Header>
-            <span className="block text-sm">Bénédicte YAO</span>
-            <span className="block truncate text-sm font-medium">bene@gmail.com</span>
+            <span className="block font-bold text-sm">DIGILINK</span>
+            <span className="block truncate text-sm font-light">Votre réseau, votre force.</span>
           </Dropdown.Header>
           <Dropdown.Item as={Link} to="/Bientot">Numériser cartes</Dropdown.Item>
           <Dropdown.Item as={Link} to="/GestionCarte">Gérer mes pages</Dropdown.Item>

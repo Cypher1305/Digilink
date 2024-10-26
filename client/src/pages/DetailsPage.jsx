@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -13,6 +16,10 @@ import site from "../assets/site.png";
 import wha from "../assets/wha.png";
 import beh from "../assets/behance.png";
 import pint from "../assets/pint.png";
+
+const isLocal = window.location.hostname === 'localhost';
+const API_URL = isLocal ? 'http://localhost:5000' : 'http://192.168.1.3:5000';
+
 
 function DetailsPage() {
   const { pageName: initialPageName } = useParams();
@@ -61,7 +68,7 @@ END:VCARD`;
   // Fonction pour sauvegarder les détails dans la base de données
   const saveDetailsToDatabase = async () => {
   try {
-    const response = await axios.post(`http://localhost:5000/carte/${pageName}`, {
+    const response = await axios.post(`${API_URL}/carte/${pageName}`, {
       pageName,
       logoUrl,
       userUrl,

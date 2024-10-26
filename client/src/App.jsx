@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import {
@@ -23,6 +24,8 @@ import { getCompanies } from "./pages/Functions/CompanyService";
 import DetailsPage from "./pages/DetailsPage.jsx";
 import BientotDisponible from "./pages/BientotDisponible.jsx";
 import CartePage from './pages/CartePage.jsx';
+import MesContacts from "./pages/MesContacts.jsx";
+import EditCartePage from "./pages/EditCartePage.jsx"
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -59,6 +62,9 @@ function App() {
         <Route path="/Bientot" element={<BientotDisponible />} />
         <Route path="/GestionCarte" element={<Carte />} />
         <Route path="/GestionCompte" element={<Compte />} />
+        <Route path="/Contacts" element={<MesContacts />} />
+        <Route path="/Abonne" element={<Abonnement />} />
+        <Route path="/edit-carte" element={<EditCartePage />} /> 
         <Route
           path="/Login"
           element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
@@ -69,7 +75,7 @@ function App() {
           <>
             <Route path="/GestionCarte" element={<Carte />} />
             <Route path="/GestionCompte" element={<Compte />} />
-            <Route path="/Abonne" element={<Abonnement />} />
+            
           </>
         ) : (
           <Route path="*" element={<Navigate to="/Login" />} />

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // src/pages/Annuaire.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';

@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getCompanies, getReviews } from "./Functions/CompanyService";
